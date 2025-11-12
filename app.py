@@ -17,11 +17,6 @@ client = MongoClient(mongo_uri)
 db = client["student_db"]
 collection = db["students"]
 
-@app.route("/submissions")
-def show_submissions():
-    data = list(collection.find({}, {"_id": 0}))  # exclude MongoDB’s internal _id field
-    return jsonify(data)
-
 
 # --- API Route ---
 @app.route("/api")
@@ -29,6 +24,12 @@ def get_data():
     with open("data.json", "r") as file:
         data = json.load(file)
     return jsonify(data)
+
+@app.route("/submissions")
+def show_submissions():
+    data = list(collection.find({}, {"_id": 0}))  # exclude MongoDB’s internal _id field
+    return jsonify(data)
+
 
 # --- Form Page ---
 @app.route("/", methods=["GET", "POST"])
